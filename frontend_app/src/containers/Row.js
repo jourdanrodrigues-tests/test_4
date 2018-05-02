@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   background-color: #0E0E12;
   justify-content: space-between;
   
-  &:not(:last-child) {
+  &:not(:first-child) {
     border-top: ${border};
   }
 
