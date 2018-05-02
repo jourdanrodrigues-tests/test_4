@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const size = '2em'
+const size = '1em'
 const color = '#48494F'
 
 const Wrapper = styled.div`
@@ -11,12 +11,12 @@ const Wrapper = styled.div`
   height: ${size};
   width: ${size};
   border-radius: 50%;
-  border: 2px solid ${color};
+  border: 1px solid ${color};
   background-color: transparent;
 `
 
-const dotSize = '5px'
-const dotStep = multiply(dotSize, 1.7)
+const dotSize = '2px'
+const dotStep = multiply(dotSize, 2)
 
 const Dots = styled.div`
   display: flex;
