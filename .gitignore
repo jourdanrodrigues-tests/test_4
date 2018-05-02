@@ -1,6 +1,7 @@
 # Files
 .DS_Store
 .env
+*.py[cod]
 
 # Directories
 frontend_app/node_modules/

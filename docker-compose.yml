@@ -10,3 +10,15 @@ services:
       - ./frontend_app:/app
     ports:
       - "3000:3000"
+
+  backend:
+    container_name: yousician_backend
+    build: ./backend_app
+    command: flask run --host=0.0.0.0 --port=5000
+    environment:
+      - FLASK_APP=index.py
+      - FLASK_DEBUG=1
+    volumes:
+      - ./backend_app:/app
+    ports:
+      - "5000:5000"
