@@ -1,16 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import Logo from '../components/Logo'
 import OptionsButton from '../components/OptionsButton'
 
 const border = '1px solid #212327'
+const padding = '2em'
 
 const Wrapper = styled.div`
   height: 4em;
-  width: 100%;
+  width: 100% - ${padding};
   display: flex;
+  padding: 0 ${padding};
   align-items: center;
   background-color: #0E0E12;
+  justify-content: space-between;
   
   &:not(:last-child) {
     border-top: ${border};
@@ -23,6 +27,7 @@ const Wrapper = styled.div`
 
 const Row = () => (
   <Wrapper>
+    <Logo/>
     <OptionsButton/>
   </Wrapper>
 )
