@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import SongInfo from './SongInfo'
 import Logo from '../components/Logo'
-import Level from '../components/Level'
 import OptionsButton from '../components/OptionsButton'
 
 const border = '1px solid #212327'
@@ -25,17 +25,10 @@ const Wrapper = styled.div`
   }
 `
 
-const InfoWrapper = styled.div`
-  flex-grow: 1;
-  padding-left: 1em;
-`
-
 const Row = () => (
   <Wrapper>
     <Logo/>
-    <InfoWrapper>
-      <Level/>
-    </InfoWrapper>
+    <SongInfo/>
     <OptionsButton/>
   </Wrapper>
 )
