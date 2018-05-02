@@ -31,7 +31,7 @@ const SongInfo = () => (
     <DataWrapper>
       <span>Scarborough fair - melody -</span>
       <SubData>
-        <Stars/>
+        <Stars rating={4}/>
         <ArtistLabel>The Yousicians</ArtistLabel>
       </SubData>
     </DataWrapper>
