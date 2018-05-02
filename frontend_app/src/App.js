@@ -1,5 +1,7 @@
 import React from 'react'
 
-const App = () => <div/>
+import Row from './containers/Row'
+
+const App = () => <Row/>
 
 export default App
