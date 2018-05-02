@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Wrapper = styled.span`
@@ -41,6 +42,10 @@ class Stars extends React.Component {
 
     return <Wrapper>{stars}</Wrapper>
   }
+}
+
+Stars.propTypes = {
+  rating: PropTypes.number,
 }
 
 export default Stars
