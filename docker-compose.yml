@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+
+  frontend:
+    container_name: yousician_frontend
+    build: ./frontend_app
+    command: npm start
+    volumes:
+      - ./frontend_app:/app
+    ports:
+      - "3000:3000"
