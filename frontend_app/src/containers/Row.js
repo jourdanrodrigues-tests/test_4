@@ -4,15 +4,17 @@ import styled from 'styled-components'
 import SongInfo from './SongInfo'
 import Logo from '../components/Logo'
 import OptionsButton from '../components/OptionsButton'
+import {mediaMobile, cssMultiply} from '../utils'
 
 const border = '1px solid #212327'
 const padding = '2em'
+const mobilePadding = cssMultiply(padding, .5)
 
 const Wrapper = styled.div`
   height: 4em;
   display: flex;
-  padding: 0 ${padding};
   align-items: center;
+  padding: 0 ${padding};
   background-color: #0E0E12;
   justify-content: space-between;
   
@@ -22,6 +24,10 @@ const Wrapper = styled.div`
 
   &:last-child {
     border-bottom: ${border};
+  }
+  
+  ${mediaMobile} {
+    padding: 0 ${mobilePadding}
   }
 `
 
