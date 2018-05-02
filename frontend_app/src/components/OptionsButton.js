@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import {cssMultiply} from '../utils'
+
 const size = '1em'
 const color = '#48494F'
 
@@ -16,7 +18,7 @@ const Wrapper = styled.div`
 `
 
 const dotSize = '2px'
-const dotStep = multiply(dotSize, 2)
+const dotStep = cssMultiply(dotSize, 2)
 
 const Dots = styled.div`
   display: flex;
@@ -51,7 +53,3 @@ const OptionsButton = () => (
 )
 
 export default OptionsButton
-
-function multiply(string, multiplier) {
-  return string.replace(/\d/, num => +num * multiplier)
-}
