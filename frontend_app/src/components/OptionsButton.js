@@ -8,11 +8,12 @@ const color = '#48494F'
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: ${size};
   width: ${size};
+  height: ${size};
+  cursor: pointer;
   border-radius: 50%;
+  align-items: center;
+  justify-content: center;
   border: 1px solid ${color};
   background-color: transparent;
 `
