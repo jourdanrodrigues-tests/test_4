@@ -1,9 +1,12 @@
 from flask import Flask, jsonify
+from flask_cors import cross_origin
+
 
 app = Flask(__name__)
 
 
 @app.route('/api/songs/')
+@cross_origin()
 def songs():
     return jsonify(get_songs())
 

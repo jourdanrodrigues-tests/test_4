@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Level from '../components/Level'
@@ -25,17 +26,23 @@ const SubData = styled.div`
   margin-top: .5em;
 `
 
-const SongInfo = () => (
+const SongInfo = ({title, artist, rating, difficulty, level}) => (
   <Wrapper>
-    <Level/>
+    <Level level={level} difficulty={difficulty}/>
     <DataWrapper>
-      <span>Scarborough fair - melody -</span>
+      <span>{title}</span>
       <SubData>
-        <Stars rating={4}/>
-        <ArtistLabel>The Yousicians</ArtistLabel>
+        <Stars rating={rating}/>
+        <ArtistLabel>{artist}</ArtistLabel>
       </SubData>
     </DataWrapper>
   </Wrapper>
 )
+
+SongInfo.propTypes = {
+  artist: PropTypes.string,
+  rating: PropTypes.string,
+  title: PropTypes.string,
+}
 
 export default SongInfo

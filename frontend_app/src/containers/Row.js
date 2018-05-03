@@ -31,10 +31,10 @@ const Wrapper = styled.div`
   }
 `
 
-const Row = () => (
+const Row = ({song: {title, artist, rating, level, difficulty}}) => (
   <Wrapper>
     <Logo/>
-    <SongInfo/>
+    <SongInfo title={title} artist={artist} rating={rating} level={level} difficulty={difficulty}/>
     <OptionsButton/>
   </Wrapper>
 )

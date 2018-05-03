@@ -12,6 +12,13 @@ if (!NODE_ENV) {
   )
 }
 
+const API_URL = process.env.API_URL
+if (!API_URL) {
+  throw new Error(
+    'The API_URL environment variable is required but was not specified.'
+  )
+}
+
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 const dotenvFiles = [
   `${paths.dotenv}.${NODE_ENV}.local`,
@@ -75,6 +82,7 @@ function getClientEnvironment(publicUrl) {
         // This should only be used as an escape hatch. Normally you would put
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
+        API_URL,
       }
     )
   // Stringify all values so we can feed into Webpack DefinePlugin

@@ -31,7 +31,7 @@ class Stars extends React.Component {
       let className
       if (i < rating) {
         className = 'fa fa-star'
-      } else if ((rating - i) % 1 !== 0) {
+      } else if (i - rating < 1) {
         className = 'fa fa-star-half-o'
       } else {
         className = 'fa fa-star-o'

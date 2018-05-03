@@ -6,6 +6,8 @@ services:
     container_name: yousician_frontend
     build: ./frontend_app
     command: npm start
+    environment:
+      - API_URL=http://0.0.0.0:5000/api/
     volumes:
       - ./frontend_app:/app
     ports:
