@@ -31,7 +31,7 @@ const LabelWithText = styled(Label)`
   ${labelCssPropsWhenText}
 `
 
-const Input = styled.input`
+const Input = styled.input.attrs({size: 34})`
   height: 2em;
   border: none;
   color: white;
@@ -62,7 +62,7 @@ class TextFilter extends React.Component {
     const LabelComponent = this.state.hasText ? LabelWithText : Label
     return (
       <Wrapper>
-        <Input id="search" size="40" onChange={this.handleChange} />
+        <Input id="search" onChange={this.handleChange} />
         <LabelComponent htmlFor="search">Type here to search for a song</LabelComponent>
       </Wrapper>
     )
