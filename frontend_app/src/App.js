@@ -1,6 +1,7 @@
 import React from 'react'
 import 'font-awesome/css/font-awesome.min.css'
 
+import './index.css'
 import Row from './containers/Row'
 
 const apiUrl = process.env.API_URL.replace(/\/$/, '')
