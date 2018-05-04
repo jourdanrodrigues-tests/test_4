@@ -35,10 +35,11 @@ const Input = styled.input.attrs({size: 34})`
   height: 2em;
   border: none;
   color: white;
+  border-radius: 0;
   user-select: none;
+  transition: ${delay};
   background-color: transparent;
   border-bottom: 2px solid ${color};
-  transition: ${delay};
   
   &:focus {
     border-bottom: 2px solid ${focusColor};
