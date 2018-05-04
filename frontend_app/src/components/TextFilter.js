@@ -71,6 +71,7 @@ class TextFilter extends React.Component {
 }
 
 TextFilter.propTypes = {
+  setFilter: PropTypes.func,
   handleChange: PropTypes.func,
 }
 
@@ -78,5 +79,7 @@ export default TextFilter
 
 function _handleChange(element) {
   this.setState({hasText: !!element.target.value})
+
+  this.props.setFilter(element.target.value)
   this.props.handleChange(element)
 }

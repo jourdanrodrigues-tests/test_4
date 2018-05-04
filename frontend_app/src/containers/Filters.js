@@ -15,8 +15,8 @@ const Wrapper = styled.div`
 
 const Filters = ({handleFilter, setTextFilter, setLevelFilter, levels}) => (
   <Wrapper>
-    <LevelFilter handleChange={_getLevelFilter(setLevelFilter, handleFilter)} levels={levels}/>
-    <TextFilter handleChange={_getTextFilter(setTextFilter, handleFilter)}/>
+    <LevelFilter setFilter={setLevelFilter} handleChange={handleFilter} levels={levels}/>
+    <TextFilter setFilter={setTextFilter} handleChange={handleFilter}/>
   </Wrapper>
 )
 
@@ -28,22 +28,5 @@ Filters.propTypes = {
 }
 
 export default Filters
-
-function _getTextFilter(setFilter, handleFilter) {
-  return element => {
-    setFilter(element.target.value)
-    handleFilter()
-  }
-}
-
-function _getLevelFilter(setFilter, handleFilter) {
-  return element => {
-    const {checked, value} = element.target
-    const action = checked ? 'add' : 'delete'
-
-    setFilter(action, +value)
-    handleFilter()
-  }
-}
 
 

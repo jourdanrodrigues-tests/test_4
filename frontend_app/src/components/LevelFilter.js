@@ -31,12 +31,13 @@ class LevelFilter extends React.Component {
     }
 
     this.toggleSelect = _toggleSelect.bind(this)
+    this.handleChange = _handleChange.bind(this)
+    this.mapLevels = _mapLevels.bind(this)
   }
 
   render() {
-    const {levels, handleChange} = this.props
+    const {levels} = this.props
 
-    const _mapLevels = _getMapLevels(handleChange, this.state.selected)
     const _levels = _clearLevels(levels)
 
 
@@ -56,7 +57,7 @@ class LevelFilter extends React.Component {
       <Wrapper onClick={this.toggleSelect}>
         <Label>{this.state.title || 'Filter level'}</Label>
         <SelectStyled isOpen={this.state.isOpen}>
-          {_levels.map(_mapLevels)}
+          {_levels.map(this.mapLevels)}
         </SelectStyled>
       </Wrapper>
     )
@@ -64,16 +65,20 @@ class LevelFilter extends React.Component {
 }
 
 LevelFilter.propTypes = {
+  setFilter: PropTypes.func,
   handleChange: PropTypes.func,
   levels: PropTypes.arrayOf(PropTypes.number),
 }
 
 export default LevelFilter
 
-function _getMapLevels(handleChange, selected) {
-  return (level) => (
+function _mapLevels(level) {
+  return  (
     <Option key={level}>
-      <input type="checkbox" checked={selected.has(level)} onChange={handleChange} value={level}/>
+      <input value={level}
+             type="checkbox"
+             onChange={this.handleChange}
+             checked={this.state.selected.has(level)}/>
       {level}
     </Option>
   )
@@ -86,6 +91,14 @@ function _toggleSelect() {
 function _clearLevels(levels) {
   // noinspection JSCheckFunctionSignatures
   return Array.from(new Set(levels.sort((num, next) => +num - (+next))))
+}
+
+function _handleChange(element) {
+  const {checked, value} = element.target
+  const action = checked ? 'add' : 'delete'
+
+  this.props.setFilter(action, +value)
+  this.props.handleChange(element)
 }
 
 
