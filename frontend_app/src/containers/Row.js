@@ -2,9 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 import SongInfo from './SongInfo'
+import {colors} from '../constants'
 import Logo from '../components/Logo'
-import OptionsButton from '../components/OptionsButton'
 import {mediaMobile, cssMultiply} from '../utils'
+import OptionsButton from '../components/OptionsButton'
 
 const border = '1px solid #212327'
 const padding = '2em'
@@ -15,8 +16,8 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   padding: 0 ${padding};
-  background-color: #0E0E12;
   justify-content: space-between;
+  background-color: ${colors.backgroundColor};
   
   &:not(:first-child) {
     border-top: ${border};
