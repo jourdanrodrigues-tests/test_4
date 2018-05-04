@@ -16,15 +16,15 @@ const Wrapper = styled.span`
   justify-content: center;
 `
 
-const Level = ({level, difficulty}) => (
+const LevelDisplay = ({level, difficulty}) => (
   <Wrapper>
     {level}
   </Wrapper>
 )
 
-Level.propTypes = {
+LevelDisplay.propTypes = {
   level: PropTypes.number,
   difficulty: PropTypes.number,
 }
 
-export default Level
+export default LevelDisplay

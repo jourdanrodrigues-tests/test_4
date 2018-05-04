@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import Level from '../components/Level'
+import LevelDisplay from '../components/LevelDisplay'
 import Stars from './Stars'
 
 const Wrapper = styled.div`
@@ -17,7 +17,7 @@ const DataWrapper = styled.div`
   margin-left: 1em;
 `
 
-const ArtistLabel = styled.span`
+const Artist = styled.span`
   color: #878789;
 `
 
@@ -28,12 +28,12 @@ const SubData = styled.div`
 
 const SongInfo = ({title, artist, rating, difficulty, level}) => (
   <Wrapper>
-    <Level level={level} difficulty={difficulty}/>
+    <LevelDisplay level={level} difficulty={difficulty}/>
     <DataWrapper>
       <span>{title}</span>
       <SubData>
         <Stars rating={rating}/>
-        <ArtistLabel>{artist}</ArtistLabel>
+        <Artist>{artist}</Artist>
       </SubData>
     </DataWrapper>
   </Wrapper>
