@@ -8,19 +8,6 @@ services:
     environment:
       - MONGODB_DBNAME=yousician_db
 
-  frontend:
-    container_name: yousician_frontend
-    build: ./frontend_app
-    command: npm start
-    environment:
-      - API_URL=http://0.0.0.0:5000/api/
-    volumes:
-      - ./frontend_app:/app
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-
   backend:
     container_name: yousician_backend
     build: ./backend_app
@@ -35,3 +22,16 @@ services:
       - "5000:5000"
     links:
       - db
+
+  frontend:
+    container_name: yousician_frontend
+    build: ./frontend_app
+    command: npm start
+    environment:
+      - API_URL=http://0.0.0.0:5000/api/
+    volumes:
+      - ./frontend_app:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
