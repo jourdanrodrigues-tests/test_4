@@ -81,7 +81,7 @@ function _filterSongs() {
     songs = songs.filter(({title, artist}) => regex.test(title) || regex.test(artist))
   }
 
-  if (levelFilter) {
+  if (levelFilter.size !== 0) {
     songs = songs.filter(({level}) => levelFilter.has(level))
   }
 
