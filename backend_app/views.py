@@ -80,7 +80,7 @@ def set_rating(song_id):
     if not rating:
         return Response('Required "rating" not sent').bad_request()
 
-    query_result = collection.update_one(where, {'$set': {'rating': rating}})
+    query_result = collection.update_one(where, {'$set': {'rating': int(rating)}})
 
     if not query_result.matched_count:
         return Response('Song not found').not_found()
