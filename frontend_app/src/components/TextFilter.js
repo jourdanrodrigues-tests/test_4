@@ -17,6 +17,7 @@ const delay = '.3s'
 
 const Label = styled.label`
   color: ${color};
+  cursor: pointer;
   position: absolute;
   transition: ${delay};
 `
@@ -35,6 +36,7 @@ const Input = styled.input.attrs({size: 34})`
   height: 2em;
   border: none;
   color: white;
+  cursor: pointer;
   border-radius: 0;
   user-select: none;
   transition: ${delay};

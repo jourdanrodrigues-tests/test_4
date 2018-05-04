@@ -7,9 +7,10 @@ import {colors} from '../constants'
 const selectBorderRadius = '.5em'
 
 const Wrapper = styled.div`
+  cursor: pointer;
   padding: .5em 1em;
-  background-color: gray;
   border-radius: 1em;
+  background-color: gray;
 `
 
 const Option = styled.label`
