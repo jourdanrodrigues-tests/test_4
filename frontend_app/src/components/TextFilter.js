@@ -6,9 +6,7 @@ import {colors} from '../constants'
 
 
 const Wrapper = styled.div`
-  height: 4em;
   display: flex;
-  padding-left: 1em;
   align-items: center;
   background-color: ${colors.backgroundColor};
 `
@@ -51,7 +49,7 @@ const Input = styled.input`
   }
 `
 
-class SearchField extends React.Component {
+class TextFilter extends React.Component {
   constructor() {
     super()
 
@@ -61,22 +59,21 @@ class SearchField extends React.Component {
   }
 
   render() {
-    const {hasText} = this.state
-    const LabelComponent = hasText ? LabelWithText : Label
+    const LabelComponent = this.state.hasText ? LabelWithText : Label
     return (
       <Wrapper>
         <Input id="search" size="40" onChange={this.handleChange} />
-        <LabelComponent htmlFor="search">Type here to search a song</LabelComponent>
+        <LabelComponent htmlFor="search">Type here to search for a song</LabelComponent>
       </Wrapper>
     )
   }
 }
 
-SearchField.propTypes = {
+TextFilter.propTypes = {
   handleChange: PropTypes.func,
 }
 
-export default SearchField
+export default TextFilter
 
 function _handleChange(element) {
   this.setState({hasText: !!element.target.value})

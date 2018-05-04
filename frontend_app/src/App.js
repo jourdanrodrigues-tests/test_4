@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Row from './containers/Row'
-import SearchField from './components/SearchField'
+import Songs from './containers/Songs'
+import Filters from './containers/Filters'
 
 const apiUrl = process.env.API_URL.replace(/\/$/, '')
 
@@ -11,22 +11,37 @@ class App extends React.Component {
 
     this.state = {
       songs: [],
-      unfilteredSongs: []
+      unfilteredSongs: [],
+      levels: [],
+      filters: {
+        text: undefined,
+        level: new Set(),
+      },
     }
+
     this.filterSongs = _filterSongs.bind(this)
+    this.setTextFilter = _setTextFilter.bind(this)
+    this.setLevelFilter = _setLevelFilter.bind(this)
   }
 
   componentWillMount() {
     _fetchSongs().then(songs => {
-      this.setState({songs, unfilteredSongs: songs})
+      this.setState({
+        songs,
+        unfilteredSongs: songs,
+        levels: songs.map(({level}) => level),
+      })
     })
   }
 
   render() {
     return (
       <div>
-        <SearchField handleChange={this.filterSongs}/>
-        {this.state.songs.map(_songsMap)}
+        <Filters handleFilter={this.filterSongs}
+                 setTextFilter={this.setTextFilter}
+                 setLevelFilter={this.setLevelFilter}
+                 levels={this.state.levels}/>
+        <Songs songs={this.state.songs}/>
       </div>
     )
   }
@@ -34,22 +49,41 @@ class App extends React.Component {
 
 export default App
 
-function _songsMap(song, i) {
-  return <Row key={i} song={song}/>
-}
-
 function _fetchSongs() {
   return fetch(apiUrl + '/songs/').then(response => response.json())
 }
 
-function _filterSongs(event) {
-  const value = event.target.value
-  if (!value) {
-    this.setState({songs: this.state.unfilteredSongs})
-  }
-  const songs = this.state.unfilteredSongs
-  const regex = new RegExp(value)
-  const filteredSongs = songs.filter(({title, artist}) => regex.test(title) || regex.test(artist))
+function _setTextFilter(value) {
+  this.state.filters.text = value || undefined
+}
 
-  this.setState({songs: filteredSongs})
+
+/**
+ * @param {String} action - Values are "add" and "remove" since "level" is a Set
+ * @param {number} value
+ */
+function _setLevelFilter(action, value) {
+  this.state.filters.level[action](value)
+}
+
+function _filterSongs() {
+  const {text: textFilter, level: levelFilter} = this.state.filters
+
+  if (!textFilter && !levelFilter) {
+    this.setState({songs: this.state.unfilteredSongs})
+    return
+  }
+
+  let songs = this.state.unfilteredSongs
+
+  if (textFilter) {
+    const regex = new RegExp(textFilter)
+    songs = songs.filter(({title, artist}) => regex.test(title) || regex.test(artist))
+  }
+
+  if (levelFilter) {
+    songs = songs.filter(({level}) => levelFilter.has(level))
+  }
+
+  this.setState({songs: songs})
 }
