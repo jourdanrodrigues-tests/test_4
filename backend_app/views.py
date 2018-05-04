@@ -3,11 +3,10 @@ from functools import reduce
 from bson import ObjectId
 from flask import Blueprint, request
 
-from .utils import get_collection, Response
+from .db import collection
+from .utils import Response
 
 blueprint = Blueprint('views', __name__)
-
-collection = get_collection()
 
 
 @blueprint.route('/api/songs/', methods=['GET'])
