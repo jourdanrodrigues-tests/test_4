@@ -41,7 +41,7 @@ const SongInfo = ({title, artist, rating, difficulty, level}) => (
 
 SongInfo.propTypes = {
   artist: PropTypes.string,
-  rating: PropTypes.string,
+  rating: PropTypes.number,
   title: PropTypes.string,
 }
 
