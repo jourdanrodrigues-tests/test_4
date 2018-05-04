@@ -5,7 +5,7 @@ from functools import reduce
 from bson import ObjectId
 from flask import Flask
 from flask import request
-from flask_cors import cross_origin
+from flask_cors import CORS
 from pymongo import MongoClient
 
 from .utils import get_collection, Response
@@ -21,10 +21,10 @@ DATABASE_NAME = re.search(r'/(\w+)$', DATABASE_URL).group(1)
 songs_collection = get_collection(connection[DATABASE_NAME])
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/api/songs/', methods=['GET'])
-@cross_origin()
 def songs():
     columns = {
         '_id': 0,
@@ -40,7 +40,6 @@ def songs():
 
 
 @app.route('/api/songs/search/', methods=['GET'])
-@cross_origin()
 def songs_search():
     columns = {
         '_id': 1,  # More explicit
@@ -71,7 +70,6 @@ def songs_search():
 
 
 @app.route('/api/songs/avg/difficulty/', methods=['GET'])
-@cross_origin()
 def average_difficulty():
     columns = {'_id': 0, 'difficulty': 1}
 
@@ -89,7 +87,6 @@ def average_difficulty():
 
 
 @app.route('/api/songs/rating/<int:song_id>/', methods=['POST'])
-@cross_origin()
 def set_rating(song_id):
     where = {'_id': ObjectId(str(song_id))}
     rating = request.json.get('rating')
