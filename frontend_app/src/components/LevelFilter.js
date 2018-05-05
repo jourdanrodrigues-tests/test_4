@@ -115,6 +115,7 @@ function _handleChange(element) {
   const {checked, value} = element.target
   const action = checked ? 'add' : 'delete'
 
+  this.state.selected[action](+value)
   this.props.setFilter(action, +value)
   this.props.handleChange(element)
 }
