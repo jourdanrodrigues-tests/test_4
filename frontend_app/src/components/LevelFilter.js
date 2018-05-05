@@ -15,6 +15,18 @@ const Wrapper = styled.div`
 
 const Option = styled.label`
   color: #FFF;
+  display: flex;
+  font-size: 14pt;
+  align-items: center;
+  justify-content: space-between;
+  
+  &:not(:first-child) {
+    margin-top: .5em
+  }
+`
+
+const Input = styled.input`
+  padding: 10px;
 `
 
 const Label = styled.span`
@@ -41,14 +53,14 @@ class LevelFilter extends React.Component {
 
     const _levels = _clearLevels(levels)
 
-
-
     const SelectStyled = styled.div`
+      min-width: 4em;
       position: absolute;
       padding: .5em 1.2em;
       flex-direction: column;
       border: 2px solid gray;
       background-color: ${colors.backgroundColor};
+      border-top-right-radius: ${selectBorderRadius};
       display: ${this.state.isOpen ? 'flex' : 'none'};
       border-bottom-left-radius: ${selectBorderRadius};
       border-bottom-right-radius: ${selectBorderRadius};
@@ -76,7 +88,7 @@ export default LevelFilter
 function _mapLevels(level) {
   return  (
     <Option key={level}>
-      <input value={level}
+      <Input value={level}
              type="checkbox"
              onChange={this.handleChange}
              checked={this.state.selected.has(level)}/>

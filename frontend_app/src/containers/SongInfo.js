@@ -8,13 +8,13 @@ import Stars from './Stars'
 const Wrapper = styled.div`
   flex-grow: 1;
   display: flex;
-  padding-left: 1em;
+  padding-left: .5em;
   align-items: center;
 `
 
 const DataWrapper = styled.div`
   color: white;
-  margin-left: 1em;
+  margin-left: .5em;
 `
 
 const Artist = styled.span`

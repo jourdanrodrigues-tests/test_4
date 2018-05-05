@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Wrapper = styled.span`
-  margin-right: 1em;
   color: #DBEAFF;
+  font-size: 14pt;
+  margin-right: 1em;
 `
 
 const I = styled.i`
