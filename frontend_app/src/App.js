@@ -1,9 +1,8 @@
 import React from 'react'
 
+import {apiFetch} from './utils'
 import Songs from './containers/Songs'
 import Filters from './containers/Filters'
-
-const apiUrl = process.env.API_URL.replace(/\/$/, '')
 
 class App extends React.Component {
   constructor() {
@@ -25,7 +24,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    _fetchSongs().then(songs => {
+    apiFetch('/songs/').then(songs => {
       this.setState({
         songs,
         unfilteredSongs: songs,
@@ -48,10 +47,6 @@ class App extends React.Component {
 }
 
 export default App
-
-function _fetchSongs() {
-  return fetch(apiUrl + '/songs/').then(response => response.json())
-}
 
 function _setTextFilter(value) {
   this.state.filters.text = value || undefined

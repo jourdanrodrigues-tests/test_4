@@ -26,13 +26,13 @@ const SubData = styled.div`
   margin-top: .5em;
 `
 
-const SongInfo = ({title, artist, rating, difficulty, level}) => (
+const SongInfo = ({id, title, artist, rating, difficulty, level}) => (
   <Wrapper>
     <LevelDisplay level={level} difficulty={difficulty}/>
     <DataWrapper>
       <span>{title}</span>
       <SubData>
-        <Stars rating={rating}/>
+        <Stars rating={rating} songId={id}/>
         <Artist>{artist}</Artist>
       </SubData>
     </DataWrapper>

@@ -2,6 +2,7 @@ from functools import reduce
 
 from bson import ObjectId
 from flask import Blueprint, request
+from flask_cors import cross_origin
 
 from .db import collection
 from .utils import Response
@@ -12,7 +13,7 @@ blueprint = Blueprint('views', __name__)
 @blueprint.route('/api/songs/', methods=['GET'])
 def songs():
     columns = {
-        '_id': 0,
+        '_id': 1,
         'title': 1,
         'level': 1,
         'artist': 1,
@@ -21,14 +22,17 @@ def songs():
         'difficulty': 1,
     }
 
-    _songs = collection.find({}, columns)
-    return Response(_songs).json()
+    _songs = list(collection.find({}, columns))
+
+    for song in _songs:
+        song['id'] = str(song.pop('_id'))
+
+    return Response(_songs).json(mongo_dump=False)
 
 
 @blueprint.route('/api/songs/search/', methods=['GET'])
 def songs_search():
     columns = {
-        '_id': 1,  # More explicit
         'title': 1,
         'level': 1,
         'artist': 1,
@@ -72,7 +76,8 @@ def average_difficulty():
     return Response({'average': average}).json()
 
 
-@blueprint.route('/api/songs/rating/<int:song_id>/', methods=['POST'])
+@blueprint.route('/api/songs/rating/<string:song_id>/', methods=['POST'])
+@cross_origin()
 def set_rating(song_id):
     where = {'_id': ObjectId(str(song_id))}
     rating = request.json.get('rating')

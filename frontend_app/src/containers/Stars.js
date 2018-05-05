@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import {apiFetch} from '../utils'
+
 const Wrapper = styled.span`
   color: #DBEAFF;
   font-size: 14pt;
@@ -25,6 +27,7 @@ class Stars extends React.Component {
   }
 
   render() {
+    const {songId} = this.props
     const {rating} = this.state
     const stars = []
 
@@ -38,7 +41,7 @@ class Stars extends React.Component {
         className = 'fa fa-star-o'
       }
 
-      stars.push(<I className={className} key={i} onClick={this.starClickWrapper(i)}/>)
+      stars.push(<I className={className} key={i} onClick={this.starClickWrapper(songId, i)}/>)
     }
 
     return <Wrapper>{stars}</Wrapper>
@@ -46,13 +49,17 @@ class Stars extends React.Component {
 }
 
 Stars.propTypes = {
+  songId: PropTypes.string,
   rating: PropTypes.number,
 }
 
 export default Stars
 
-function _starClickWrapper(rating) {
+function _starClickWrapper(songId, rating) {
   return () => {
-    this.setState({rating: rating})
+    apiFetch(`/songs/rating/${songId}/`, 'post', {rating})
+      .then(() => {
+        this.setState({rating})
+      })
   }
 }

@@ -10,10 +10,14 @@ class Response:
     def __init__(self, data: str or dict or list):
         self.data = data
 
-    def json(self, error=False) -> FlaskResponse:
+    def json(self, error=False, mongo_dump=True) -> FlaskResponse:
         data = {'message': self.data} if error else self.data
+
         # https://stackoverflow.com/a/27024423/4694834
-        return jsonify(json.loads(mongo_dumps(data)))
+        if mongo_dump:
+            data = json.loads(mongo_dumps(data))
+
+        return jsonify(data)
 
     def bad_request(self) -> tuple:
         return self.json(error=True), HTTPStatus.BAD_REQUEST

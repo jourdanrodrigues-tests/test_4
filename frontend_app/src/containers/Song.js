@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import SongInfo from './SongInfo'
@@ -32,12 +33,16 @@ const Wrapper = styled.div`
   }
 `
 
-const Row = ({song: {title, artist, rating, level, difficulty}}) => (
+const Song = ({song}) => (
   <Wrapper>
     <Logo/>
-    <SongInfo title={title} artist={artist} rating={rating} level={level} difficulty={difficulty}/>
+    <SongInfo {...song}/>
     <OptionsButton/>
   </Wrapper>
 )
 
-export default Row
+Song.propTypes = {
+  song: PropTypes.object
+}
+
+export default Song
