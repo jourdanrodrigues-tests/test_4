@@ -16,10 +16,10 @@ class Response:
         return jsonify(json.loads(mongo_dumps(data)))
 
     def bad_request(self) -> tuple:
-        return self.json(), HTTPStatus.BAD_REQUEST
+        return self.json(error=True), HTTPStatus.BAD_REQUEST
 
     def not_found(self) -> tuple:
-        return self.json(), HTTPStatus.NOT_FOUND
+        return self.json(error=True), HTTPStatus.NOT_FOUND
 
     @staticmethod
     def no_content() -> tuple:
