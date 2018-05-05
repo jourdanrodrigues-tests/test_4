@@ -28,7 +28,7 @@ const SubData = styled.div`
 
 const SongInfo = ({id, title, artist, rating, difficulty, level}) => (
   <Wrapper>
-    <LevelDisplay level={level} difficulty={difficulty}/>
+    <LevelDisplay level={level}/>
     <DataWrapper>
       <span>{title}</span>
       <SubData>
@@ -40,9 +40,12 @@ const SongInfo = ({id, title, artist, rating, difficulty, level}) => (
 )
 
 SongInfo.propTypes = {
+  id: PropTypes.string,
+  level: PropTypes.number,
+  title: PropTypes.string,
   artist: PropTypes.string,
   rating: PropTypes.number,
-  title: PropTypes.string,
+  difficulty: PropTypes.number,
 }
 
 export default SongInfo

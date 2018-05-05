@@ -11,20 +11,17 @@ const Wrapper = styled.span`
   height: ${size};
   font-size: 10pt;
   border-radius: 50%;
-  border: 2px dashed #404247; // Temporary
+  border: 2px solid #404247;
   align-items: center;
   justify-content: center;
 `
 
-const LevelDisplay = ({level, difficulty}) => (
-  <Wrapper>
-    {level}
-  </Wrapper>
+const LevelDisplay = ({level}) => (
+  <Wrapper>{level}</Wrapper>
 )
 
 LevelDisplay.propTypes = {
   level: PropTypes.number,
-  difficulty: PropTypes.number,
 }
 
 export default LevelDisplay
