@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import {colors} from '../constants'
+import {mediaDesktop} from '../utils'
 
 const selectBorderRadius = '.5em'
 
@@ -11,6 +12,10 @@ const Wrapper = styled.div`
   padding: .5em 1em;
   border-radius: 1em;
   background-color: gray;
+  
+  ${mediaDesktop} {
+    margin-right: 2em;
+  }
 `
 
 const Option = styled.label`

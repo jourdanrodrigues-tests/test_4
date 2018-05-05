@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import {mediaDesktop} from '../utils'
 import TextFilter from '../components/TextFilter'
 import LevelFilter from '../components/LevelFilter'
 
@@ -11,6 +12,10 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  
+  ${mediaDesktop} {
+    justify-content: center;
+  }
 `
 
 const Filters = ({handleFilter, setTextFilter, setLevelFilter, levels}) => (

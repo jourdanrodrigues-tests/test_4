@@ -5,3 +5,5 @@ export function cssMultiply(string, multiplier) {
 }
 
 export const mediaMobile = '@media (max-width: 768px)'
+
+export const mediaDesktop = '@media (min-width: 769px)'
