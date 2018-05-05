@@ -1,0 +1,8 @@
+.pytest_cache/
+.dockerignore
+docker-compose.yml
+docker-compose.prod.yml
+Dockerfile
+Dockerfile.prod
+*.py[cod]
+.DS_Store
