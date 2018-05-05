@@ -28,7 +28,7 @@ services:
     build: ./frontend_app
     command: npm start
     environment:
-      - API_URL=http://0.0.0.0:5000/api/
+      - API_URL=http://0.0.0.0:5000/
     volumes:
       - ./frontend_app:/app
     ports:

@@ -10,7 +10,7 @@ from .utils import Response
 blueprint = Blueprint('views', __name__)
 
 
-@blueprint.route('/api/songs/', methods=['GET'])
+@blueprint.route('/songs/', methods=['GET'])
 def songs():
     columns = {
         '_id': 1,
@@ -30,7 +30,7 @@ def songs():
     return Response(_songs).json(mongo_dump=False)
 
 
-@blueprint.route('/api/songs/search/', methods=['GET'])
+@blueprint.route('/songs/search/', methods=['GET'])
 def songs_search():
     columns = {
         'title': 1,
@@ -59,7 +59,7 @@ def songs_search():
     return Response(_songs).json()
 
 
-@blueprint.route('/api/songs/avg/difficulty/', methods=['GET'])
+@blueprint.route('/songs/avg/difficulty/', methods=['GET'])
 def average_difficulty():
     columns = {'_id': 0, 'difficulty': 1}
 
@@ -76,7 +76,7 @@ def average_difficulty():
     return Response({'average': average}).json()
 
 
-@blueprint.route('/api/songs/rating/<string:song_id>/', methods=['POST'])
+@blueprint.route('/songs/rating/<string:song_id>/', methods=['POST'])
 @cross_origin()
 def set_rating(song_id):
     where = {'_id': ObjectId(str(song_id))}
