@@ -3,10 +3,13 @@
 .env
 *.py[cod]
 
-# Directories
+# Frontend Directories
 frontend_app/node_modules/
 frontend_app/coverage/
 frontend_app/build/
+
+# Backend Directories
+backend_app/.pytest_cache/
 
 # JetBrains settings: https://github.com/github/gitignore/blob/master/Global/JetBrains.gitignore
 # User-specific stuff
