@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from ..db import collection
-from ..index import app
+from ..app import flaskApp
 from ..views import songs, songs_search, average_difficulty, set_rating
 
 
@@ -9,7 +9,7 @@ class TestSongs:
     def test_that_it_returns_ok_status(self, mocker):
         mocker.patch.object(collection, 'find', return_value=[{'key': 'value'}])
 
-        with app.app_context():
+        with flaskApp.app_context():
             response = songs()
 
         assert response.status_code == HTTPStatus.OK
@@ -18,7 +18,7 @@ class TestSongs:
         data = [{'key': 'value'}]
         mocker.patch.object(collection, 'find', return_value=data)
 
-        with app.app_context():
+        with flaskApp.app_context():
             response = songs()
 
         assert response.json == data
@@ -28,7 +28,7 @@ class TestSongsSearch:
     def test_when_message_param_is_sent_returns_ok_status(self, mocker):
         mocker.patch.object(collection, 'find', return_value=[{'key': 'value'}])
 
-        with app.test_request_context() as context:
+        with flaskApp.test_request_context() as context:
             context.request.args = {'message': 'text'}
 
             response = songs_search()
@@ -39,7 +39,7 @@ class TestSongsSearch:
         data = [{'key': 'value'}]
         mocker.patch.object(collection, 'find', return_value=data)
 
-        with app.test_request_context() as context:
+        with flaskApp.test_request_context() as context:
             context.request.args = {'message': 'text'}
 
             response = songs_search()
@@ -49,7 +49,7 @@ class TestSongsSearch:
     def test_when_no_message_is_sent_returns_empty_list(self, mocker):
         mocker.patch.object(collection, 'find')
 
-        with app.test_request_context() as context:
+        with flaskApp.test_request_context() as context:
             context.request.args = {}
 
             response = songs_search()
@@ -59,7 +59,7 @@ class TestSongsSearch:
     def test_when_no_message_is_sent_it_does_not_hit_database(self, mocker):
         mocked_find = mocker.patch.object(collection, 'find')
 
-        with app.test_request_context() as context:
+        with flaskApp.test_request_context() as context:
             context.request.args = {}
 
             songs_search()
@@ -69,7 +69,7 @@ class TestSongsSearch:
     def test_when_empty_message_is_sent_returns_empty_list(self, mocker):
         mocker.patch.object(collection, 'find')
 
-        with app.test_request_context() as context:
+        with flaskApp.test_request_context() as context:
             context.request.args = {'message': ''}  # Query string as "?message="
 
             response = songs_search()
@@ -79,7 +79,7 @@ class TestSongsSearch:
     def test_when_empty_message_is_sent_it_does_not_hit_database(self, mocker):
         mocked_find = mocker.patch.object(collection, 'find')
 
-        with app.test_request_context() as context:
+        with flaskApp.test_request_context() as context:
             context.request.args = {'message': ''}  # Query string as "?message="
 
             songs_search()
@@ -93,7 +93,7 @@ class TestAverageDifficulty:
         # (3 + 2 + 1) / 3 == 2
         mocker.patch.object(collection, 'find', return_value=data)
 
-        with app.test_request_context() as context:
+        with flaskApp.test_request_context() as context:
             context.request.args = {}
 
             response = average_difficulty()
@@ -105,7 +105,7 @@ class TestAverageDifficulty:
         # (3 + 2 + 1) / 3 == 2
         mocker.patch.object(collection, 'find', return_value=data)
 
-        with app.test_request_context() as context:
+        with flaskApp.test_request_context() as context:
             context.request.args = {}
 
             response = average_difficulty()
@@ -115,7 +115,7 @@ class TestAverageDifficulty:
     def test_when_no_level_is_sent_the_filter_is_empty(self, mocker):
         mocked_find = mocker.patch.object(collection, 'find', return_value=[{'difficulty': 1}])
 
-        with app.test_request_context() as context:
+        with flaskApp.test_request_context() as context:
             context.request.args = {}
 
             average_difficulty()
@@ -125,7 +125,7 @@ class TestAverageDifficulty:
     def test_when_level_is_sent_the_filter_has_it(self, mocker):
         mocked_find = mocker.patch.object(collection, 'find', return_value=[{'difficulty': 1}])
 
-        with app.test_request_context() as context:
+        with flaskApp.test_request_context() as context:
             context.request.args = {'level': '4'}
 
             average_difficulty()
@@ -137,7 +137,7 @@ class TestSetRating:
     def test_when_no_rating_is_sent_returns_bad_request_status(self):
         song_id = '53cb6b9b4f4ddef1ad47f943'
 
-        with app.test_request_context(json={}):
+        with flaskApp.test_request_context(json={}):
             response = set_rating(song_id)
 
         status_code = response[1]
@@ -152,7 +152,7 @@ class TestSetRating:
 
         mocker.patch.object(collection, 'update_one', return_value=UpdateResultMock())
 
-        with app.test_request_context(json={'rating': 4}):
+        with flaskApp.test_request_context(json={'rating': 4}):
             response = set_rating(song_id)
 
         status_code = response[1]
@@ -167,7 +167,7 @@ class TestSetRating:
 
         mocker.patch.object(collection, 'update_one', return_value=UpdateResultMock())
 
-        with app.test_request_context(json={'rating': 4}):
+        with flaskApp.test_request_context(json={'rating': 4}):
             response = set_rating(song_id)
 
         status_code = response[1]

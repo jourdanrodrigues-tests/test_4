@@ -11,10 +11,10 @@ services:
   backend:
     container_name: yousician_backend
     build: ./backend_app
-    command: flask run --host=0.0.0.0 --port=5000
+    command: flask run --host=0.0.0.0
     environment:
       - DATABASE_URL=mongodb://db/yousician_db
-      - FLASK_APP=index.py
+      - FLASK_APP=app.py
       - FLASK_DEBUG=1
     volumes:
       - ./backend_app:/app
