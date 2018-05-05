@@ -30,7 +30,7 @@ class Stars extends React.Component {
 
     for (let i = 1; i < 6; i++) {
       let className
-      if (i < rating) {
+      if (i <= rating) {
         className = 'fa fa-star'
       } else if (i - rating < 1) {
         className = 'fa fa-star-half-o'
@@ -38,7 +38,7 @@ class Stars extends React.Component {
         className = 'fa fa-star-o'
       }
 
-      stars.push(<I className={className} key={i} onClick={this.starClickWrapper(i + 1)}/>)
+      stars.push(<I className={className} key={i} onClick={this.starClickWrapper(i)}/>)
     }
 
     return <Wrapper>{stars}</Wrapper>
