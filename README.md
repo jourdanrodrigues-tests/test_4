@@ -8,14 +8,14 @@
 Notes:
 
 - The script [`run.sh`](run.sh) is a wrapper for the `docker-compose` command - refer to
-[Docker Compose docs][docker-compose-docs-link]
+[Docker Compose docs][docker-compose-docs-link].
 
 - [Docker][docker-link] and [Docker Compose][docker-compose-link] must be installed in your
 environment (they come bundled for Mac).
 
 ```bash
 # Clone repo
-mkdir test_app && cd $_ && git clone https://github.com/jourdanrodrigues-tests/test_4/ .
+mkdir yousician-test && cd $_ && git clone https://github.com/jourdanrodrigues-tests/test_4/ .
 ```
 
 ### Development
