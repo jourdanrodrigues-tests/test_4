@@ -7,7 +7,7 @@
 
 Notes:
 
-- The script [`run.sh`](run.sh) is a wrapper for the `docker-compose` command - refer to
+- The script [`compose.sh`](compose.sh) is a wrapper for the `docker-compose` command - see
 [Docker Compose docs][docker-compose-docs-link].
 
 - [Docker][docker-link] and [Docker Compose][docker-compose-link] must be installed in your
@@ -21,13 +21,13 @@ mkdir yousician-test && cd $_ && git clone https://github.com/jourdanrodrigues-t
 ### Development
 
 ```bash
-./run.sh up
+./compose.sh up
 ```
 
 ### Production
 
 ```bash
-./run.sh prod up
+./compose.sh prod up
 ```
 
 After running the `up` command, you should have access to the frontend app at
