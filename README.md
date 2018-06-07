@@ -21,13 +21,13 @@ mkdir yousician-test && cd $_ && git clone https://github.com/jourdanrodrigues-t
 ### Development
 
 ```bash
-./compose.sh up
+./compose.sh dev up
 ```
 
 ### Production
 
 ```bash
-./compose.sh prod up
+./compose.sh up
 ```
 
 After running the `up` command, you should have access to the frontend app at

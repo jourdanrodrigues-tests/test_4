@@ -10,14 +10,12 @@ services:
 
   backend:
     container_name: yousician_backend
-    build: ./backend_app
+    build: ./backend_app/
     command: flask run --host=0.0.0.0
     environment:
-      - DATABASE_URL=mongodb://db/yousician_db
       - FLASK_APP=app.py
-      - FLASK_DEBUG=1
-    volumes:
-      - ./backend_app:/app
+      - FLASK_ENV=production
+      - DATABASE_URL=mongodb://db/yousician_db
     ports:
       - "5000:5000"
     links:
@@ -25,12 +23,11 @@ services:
 
   frontend:
     container_name: yousician_frontend
-    build: ./frontend_app
-    command: npm start
-    environment:
-      - API_URL=http://0.0.0.0:5000/
-    volumes:
-      - ./frontend_app:/app
+    build:
+      context: ./frontend_app/
+      args:
+        API_URL: http://0.0.0.0:5000/
+    command: node .
     ports:
       - "3000:3000"
     depends_on:

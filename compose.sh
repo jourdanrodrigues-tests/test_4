@@ -2,15 +2,16 @@
 
 CURRENT_DIR=$(dirname ${0})
 
-if [ "${1}" == "prod" ]; then
+if [ "${1}" == "dev" ]; then
   shift
-  docker-compose -f docker-compose.prod.yml ${@}
+  COMMAND="docker-compose -f docker-compose.yml -f docker-compose.dev.yml"
 else
-  if [ ! -d ${CURRENT_DIR}/frontend_app/node_modules ]; then
-    # The development volume makes it ignore the "node_modules" folder
-    cd ${CURRENT_DIR}/frontend_app
-    npm i
-    cd ..
-  fi
-  docker-compose ${@}
+  COMMAND="docker-compose"
 fi
+
+if [ "${1}" == "run" ]; then
+  shift
+  COMMAND="${COMMAND} run --rm"
+fi
+
+${COMMAND} ${@}
