@@ -21,13 +21,15 @@ mkdir yousician-test && cd $_ && git clone https://github.com/jourdanrodrigues-t
 ### Development
 
 ```bash
-./compose.sh dev up
+./compose.sh dev up # Run servers
+./compose.sh dev run backend pytest # Run tests
 ```
 
 ### Production
 
 ```bash
-./compose.sh up
+./compose.sh up # Run servers
+./compose.sh run backend pytest # Run tests
 ```
 
 After running the `up` command, you should have access to the frontend app at
