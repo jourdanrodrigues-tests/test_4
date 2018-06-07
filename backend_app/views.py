@@ -21,10 +21,23 @@ def songs():
         'difficulty': 1,
     }
 
-    _songs = list(collection.find({}, columns))
+    _songs = collection.find({}, columns)
 
-    for song in _songs:
-        song['id'] = str(song.pop('_id'))
+    try:
+        page = int(request.args.get('page'))
+    except ValueError:
+        return Response('Invalid valid for "page" param.').bad_request()
+    except TypeError:  # When parameter is not present
+        pass
+    else:
+        if page > 0:
+            items_per_page = 10
+            _songs = _songs.skip((page - 1) * items_per_page).limit(items_per_page)
+
+    _songs = [
+        {'id': str(song.pop('_id')), **song}
+        for song in list(_songs)
+    ]
 
     return Response(_songs).json(mongo_dump=False)
 

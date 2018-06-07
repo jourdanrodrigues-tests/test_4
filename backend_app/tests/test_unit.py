@@ -7,21 +7,30 @@ from ..views import songs, songs_search, average_difficulty, set_rating
 
 class TestSongs:
     def test_that_it_returns_ok_status(self, mocker):
-        mocker.patch.object(collection, 'find', return_value=[{'key': 'value'}])
+        mocker.patch.object(collection, 'find', return_value=[{'_id': 'some_id'}])
 
-        with flaskApp.app_context():
+        with flaskApp.test_request_context():
             response = songs()
 
         assert response.status_code == HTTPStatus.OK
 
     def test_that_it_returns_data_from_collection(self, mocker):
-        data = [{'key': 'value'}]
+        data = [{'_id': 'some_id'}]
         mocker.patch.object(collection, 'find', return_value=data)
 
-        with flaskApp.app_context():
+        with flaskApp.test_request_context():
             response = songs()
 
-        assert response.json == data
+        assert response.json == [{'id': 'some_id'}]
+
+    def test_when_wrong_page_parameter_is_sent_returns_bad_request_status(self, mocker):
+        mocker.patch.object(collection, 'find', return_value=[])
+
+        with flaskApp.test_request_context() as context:
+            context.request.args = {'page': '1page'}
+            response = songs()
+
+        assert response[1] == HTTPStatus.BAD_REQUEST
 
 
 class TestSongsSearch:
