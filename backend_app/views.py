@@ -2,7 +2,6 @@ from functools import reduce
 
 from bson import ObjectId
 from flask import Blueprint, request
-from flask_cors import cross_origin
 
 from .db import collection
 from .utils import Response
@@ -77,7 +76,6 @@ def average_difficulty():
 
 
 @blueprint.route('/songs/rating/<string:song_id>/', methods=['POST'])
-@cross_origin()
 def set_rating(song_id):
     where = {'_id': ObjectId(str(song_id))}
     rating = request.json.get('rating')
