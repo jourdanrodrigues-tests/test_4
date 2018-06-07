@@ -57,7 +57,7 @@ export default Stars
 
 function _starClickWrapper(songId, rating) {
   return () => {
-    apiFetch(`/songs/rating/${songId}/`, 'post', {rating})
+    apiFetch(`/songs/rating/`, 'post', {song_id: songId, rating})
       .then(() => {
         this.setState({rating})
       })

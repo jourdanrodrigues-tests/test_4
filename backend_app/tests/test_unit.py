@@ -146,8 +146,28 @@ class TestSetRating:
     def test_when_no_rating_is_sent_returns_bad_request_status(self):
         song_id = '53cb6b9b4f4ddef1ad47f943'
 
-        with flaskApp.test_request_context(json={}):
-            response = set_rating(song_id)
+        with flaskApp.test_request_context(json={'song_id': song_id}):
+            response = set_rating()
+
+        status_code = response[1]
+
+        assert status_code == HTTPStatus.BAD_REQUEST
+
+    def test_when_rating_less_than_one_is_sent_returns_bad_request_status(self):
+        song_id = '53cb6b9b4f4ddef1ad47f943'
+
+        with flaskApp.test_request_context(json={'rating': 0, 'song_id': song_id}):
+            response = set_rating()
+
+        status_code = response[1]
+
+        assert status_code == HTTPStatus.BAD_REQUEST
+
+    def test_when_rating_greater_than_five_is_sent_returns_bad_request_status(self):
+        song_id = '53cb6b9b4f4ddef1ad47f943'
+
+        with flaskApp.test_request_context(json={'rating': 6, 'song_id': song_id}):
+            response = set_rating()
 
         status_code = response[1]
 
@@ -161,8 +181,8 @@ class TestSetRating:
 
         mocker.patch.object(collection, 'update_one', return_value=UpdateResultMock())
 
-        with flaskApp.test_request_context(json={'rating': 4}):
-            response = set_rating(song_id)
+        with flaskApp.test_request_context(json={'rating': 4, 'song_id': song_id}):
+            response = set_rating()
 
         status_code = response[1]
 
@@ -176,8 +196,8 @@ class TestSetRating:
 
         mocker.patch.object(collection, 'update_one', return_value=UpdateResultMock())
 
-        with flaskApp.test_request_context(json={'rating': 4}):
-            response = set_rating(song_id)
+        with flaskApp.test_request_context(json={'rating': 4, 'song_id': song_id}):
+            response = set_rating()
 
         status_code = response[1]
 

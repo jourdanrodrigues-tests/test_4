@@ -88,12 +88,19 @@ def average_difficulty():
     return Response({'average': average}).json()
 
 
-@blueprint.route('/songs/rating/<string:song_id>/', methods=['POST'])
-def set_rating(song_id):
-    where = {'_id': ObjectId(str(song_id))}
-    rating = request.json.get('rating')
+@blueprint.route('/songs/rating/', methods=['POST'])
+def set_rating():
+    data = request.json
 
-    if not rating:
+    where = {'_id': ObjectId(data.get('song_id', ''))}
+
+    try:
+        rating = int(data.get('rating'))  # Raises value error
+        if 1 > rating or rating > 5:
+            raise ValueError()
+    except ValueError:
+        return Response('Invalid valid for "rating" param.').bad_request()
+    except TypeError:
         return Response('Required "rating" not sent').bad_request()
 
     query_result = collection.update_one(where, {'$set': {'rating': int(rating)}})
