@@ -88,6 +88,33 @@ def average_difficulty():
     return Response({'average': average}).json()
 
 
+@blueprint.route('/songs/avg/rating/<string:song_id>/', methods=['GET'])
+def average_rating(song_id):
+    columns = {'_id': 0, 'rating': 1}
+
+    where = {'_id': ObjectId(song_id)}
+
+    songs_count = 0
+    rating_sum = 0
+    rating_max = 0
+    rating_min = 0
+    for song in collection.find(where, columns):
+        # O(1)
+        rating = song['rating']
+        songs_count += 1
+        rating_sum += rating
+        rating_max = rating_max if rating_max > rating else rating
+        rating_min = rating_min if rating_min < rating else rating
+
+    average = round(rating_sum / songs_count, 2) if songs_count else 0
+
+    return Response({
+        'min': rating_min,
+        'max': rating_max,
+        'average': average,
+    }).json()
+
+
 @blueprint.route('/songs/rating/', methods=['POST'])
 def set_rating():
     data = request.json
