@@ -36,7 +36,7 @@ def songs():
         ratings = song.pop('ratings', None)
         data.append({
             'id': str(song.pop('_id')),
-            'rating': get_average(ratings) if ratings else None,
+            'rating': get_average(ratings, key='value') if ratings else None,
             **song,
         })
 

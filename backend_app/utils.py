@@ -30,7 +30,7 @@ class Response:
         return '', HTTPStatus.NO_CONTENT
 
 
-def get_average(a_list: List[Union[int, float]]) -> float:
+def get_average(a_list: List[Union[int, float]], key: str = None) -> float:
     total_items = len(a_list)
-    total_value = reduce(lambda total, value: total + value, a_list)
+    total_value = reduce(lambda total, value: total + (value[key] if key else value), a_list, 0)
     return round(total_value / total_items, 2)

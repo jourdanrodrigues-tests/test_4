@@ -28,15 +28,15 @@ class Stars extends React.Component {
 
   render() {
     const {songId} = this.props
-    const {rating} = this.state
+    let {rating} = this.state
+    rating = rating || 0
+
     const stars = []
 
     for (let i = 1; i < 6; i++) {
       let className
       if (i <= rating) {
         className = 'fa fa-star'
-      } else if (i - rating < 1) {
-        className = 'fa fa-star-half-o'
       } else {
         className = 'fa fa-star-o'
       }
