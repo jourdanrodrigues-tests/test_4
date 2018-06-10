@@ -1,5 +1,6 @@
 import json
 from http import HTTPStatus
+from typing import List, Union, Dict, Any
 
 from bson.json_util import dumps as mongo_dumps
 from flask import jsonify
@@ -7,7 +8,7 @@ from flask.wrappers import Response as FlaskResponse
 
 
 class Response:
-    def __init__(self, data: str or dict or list):
+    def __init__(self, data: Union[str, Dict[str, Any], List[Any]]):
         self.data = data
 
     def json(self, error=False, mongo_dump=True) -> FlaskResponse:
