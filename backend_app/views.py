@@ -1,27 +1,24 @@
-from functools import reduce
-
 from bson import ObjectId
 from flask import Blueprint, request
 
-from .db import collection
-from .utils import Response
+from .db import songs_collection, ratings_collection
+from .helpers import SongsAggregator
+from .utils import Response, get_average
 
 blueprint = Blueprint('views', __name__)
 
 
 @blueprint.route('/songs/', methods=['GET'])
 def songs():
-    columns = {
-        '_id': 1,
-        'title': 1,
-        'level': 1,
-        'artist': 1,
-        'rating': 1,
-        'released': 1,
-        'difficulty': 1,
-    }
-
-    _songs = collection.find({}, columns)
+    aggregator = SongsAggregator().select_fields(
+        _id=1,
+        title=1,
+        level=1,
+        artist=1,
+        ratings=1,
+        released=1,
+        difficulty=1,
+    ).join_ratings()
 
     try:
         page = int(request.args.get('page'))
@@ -32,26 +29,22 @@ def songs():
     else:
         if page > 0:
             items_per_page = 10
-            _songs = _songs.skip((page - 1) * items_per_page).limit(items_per_page)
+            aggregator.skip((page - 1) * items_per_page).limit(items_per_page)
 
-    _songs = [
-        {'id': str(song.pop('_id')), **song}
-        for song in list(_songs)
-    ]
+    data = []
+    for song in aggregator.evaluate():
+        ratings = song.pop('ratings', None)
+        data.append({
+            'id': str(song.pop('_id')),
+            'rating': get_average(ratings) if ratings else None,
+            **song,
+        })
 
-    return Response(_songs).json(mongo_dump=False)
+    return Response(data).json()
 
 
 @blueprint.route('/songs/search/', methods=['GET'])
 def songs_search():
-    columns = {
-        'title': 1,
-        'level': 1,
-        'artist': 1,
-        'rating': 1,
-        'released': 1,
-        'difficulty': 1,
-    }
     # Wondering why this is named "message" in the requirements
     to_search = request.args.get('message')
 
@@ -65,10 +58,16 @@ def songs_search():
             {'artist': search_query},
         ]
     }
+    data = SongsAggregator().filter(**where).select_fields(
+        title=1,
+        level=1,
+        artist=1,
+        ratings=1,
+        released=1,
+        difficulty=1,
+    ).evaluate()
 
-    _songs = collection.find(where, columns)
-
-    return Response(_songs).json()
+    return Response(data).json()
 
 
 @blueprint.route('/songs/avg/difficulty/', methods=['GET'])
@@ -81,32 +80,33 @@ def average_difficulty():
     if level:
         where['level'] = int(level)
 
-    _songs = list(map(lambda song: song['difficulty'], collection.find(where, columns)))
+    _songs = list(map(lambda song: song['difficulty'], songs_collection.find(where, columns)))
 
-    average = round(reduce(lambda avg, value: avg + value, _songs) / len(_songs), 2) if _songs else 0
+    average = get_average(_songs) if _songs else 0
 
     return Response({'average': average}).json()
 
 
 @blueprint.route('/songs/avg/rating/<string:song_id>/', methods=['GET'])
 def average_rating(song_id):
-    columns = {'_id': 0, 'rating': 1}
 
-    where = {'_id': ObjectId(song_id)}
-
-    songs_count = 0
+    ratings_count = 0
     rating_sum = 0
     rating_max = 0
     rating_min = 0
-    for song in collection.find(where, columns):
+
+    aggregator = SongsAggregator().join_ratings()
+
+    song = aggregator.filter(_id=ObjectId(song_id)).select_fields(_id=0, ratings=1).first().evaluate()
+
+    for rating in song['ratings']:
         # O(1)
-        rating = song['rating']
-        songs_count += 1
+        ratings_count += 1
         rating_sum += rating
         rating_max = rating_max if rating_max > rating else rating
         rating_min = rating_min if rating_min < rating else rating
 
-    average = round(rating_sum / songs_count, 2) if songs_count else 0
+    average = round(rating_sum / ratings_count, 2) if ratings_count else 0
 
     return Response({
         'min': rating_min,
@@ -119,7 +119,9 @@ def average_rating(song_id):
 def set_rating():
     data = request.json
 
-    where = {'_id': ObjectId(data.get('song_id', ''))}
+    song_id = ObjectId(data.get('song_id', ''))
+    if not songs_collection.find({'_id': {'$exists': True, '$in': [song_id]}}):
+        return Response('Song not found').not_found()
 
     try:
         rating = int(data.get('rating'))  # Raises value error
@@ -130,9 +132,9 @@ def set_rating():
     except TypeError:
         return Response('Required "rating" not sent').bad_request()
 
-    query_result = collection.update_one(where, {'$set': {'rating': int(rating)}})
-
-    if not query_result.matched_count:
-        return Response('Song not found').not_found()
+    ratings_collection.insert({
+        'value': rating,
+        'song_id': song_id,
+    })
 
     return Response.no_content()

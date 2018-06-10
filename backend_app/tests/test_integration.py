@@ -1,6 +1,6 @@
 from threading import Thread
 
-from ..db import collection
+from ..db import songs_collection
 from ..app import flaskApp
 
 Thread(target=flaskApp.run, kwargs={'port': 5123}).start()
@@ -16,7 +16,7 @@ class TestSongs:
 
 class TestAverageRating:
     def test_that_it_returns_average_min_and_max(self):
-        song = collection.find_one({}, {'_id': 1})
+        song = songs_collection.find_one({}, {'_id': 1})
         client = flaskApp.test_client()
         response = client.get('/songs/avg/rating/{}/'.format(song['_id']))
 
