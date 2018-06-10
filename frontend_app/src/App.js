@@ -80,5 +80,5 @@ function _filterSongs() {
     songs = songs.filter(({level}) => levelFilter.has(level))
   }
 
-  this.setState({songs: songs})
+  this.setState({songs})
 }
