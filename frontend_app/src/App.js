@@ -72,7 +72,7 @@ function _filterSongs() {
   let songs = this.state.unfilteredSongs
 
   if (textFilter) {
-    const regex = new RegExp(textFilter)
+    const regex = new RegExp(textFilter, 'i')
     songs = songs.filter(({title, artist}) => regex.test(title) || regex.test(artist))
   }
 
