@@ -1,3 +1,5 @@
+import re
+
 from bson import ObjectId
 from flask import Blueprint, request
 
@@ -51,7 +53,7 @@ def songs_search():
     if not to_search:
         return Response([]).json()  # Saving a query
 
-    search_query = {'$regex': r'.*{}.*'.format(to_search)}
+    search_query = re.compile(to_search, re.IGNORECASE)
     where = {
         '$or': [
             {'title': search_query},
